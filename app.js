@@ -255,5 +255,10 @@ document.querySelector('#newInvoiceButton').addEventListener('click', () => {
 });
 
 document.querySelector('#printButton').addEventListener('click', () => window.print());
+document.querySelector('#mobilePrintButton').addEventListener('click', () => window.print());
+document.querySelector('#mobilePreviewButton').addEventListener('click', () => {
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  document.querySelector('#invoicePaper').scrollIntoView({ behavior, block: 'start' });
+});
 
 populateForm();
