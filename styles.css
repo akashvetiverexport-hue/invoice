@@ -17,9 +17,10 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; background: var(--canvas); color: var(--ink); }
+body { margin: 0; min-width: 0; background: var(--canvas); color: var(--ink); }
 button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #ad895180; outline-offset: 2px; }
 .app-shell { max-width: 1440px; margin: 0 auto; padding: 0 54px; }
 .app-header { height: 86px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e6e9e6; }
 .brand { display: inline-flex; align-items: center; text-decoration: none; color: inherit; }
@@ -53,7 +54,7 @@ h1 { margin-bottom: 8px; font: 700 29px 'Manrope', sans-serif; letter-spacing: -
 .field-stack { display: grid; gap: 12px; }
 .field { display: grid; gap: 6px; color: #58625d; font-size: 10px; font-weight: 600; }
 .field em { color: #9da6a1; font-size: 9px; font-style: normal; font-weight: 400; margin-left: 3px; }
-.field input,.field textarea,.currency-row select { width: 100%; outline: 0; color: #27332d; border: 1px solid #dfe5e1; background: #fff; border-radius: 6px; font-size: 11px; transition: border .15s, box-shadow .15s; }
+.field input,.field textarea,.currency-row select { width: 100%; min-width: 0; outline: 0; color: #27332d; border: 1px solid #dfe5e1; background: #fff; border-radius: 6px; font-size: 11px; transition: border .15s, box-shadow .15s; }
 .field input { height: 36px; padding: 0 10px; }
 .field textarea { resize: vertical; min-height: 54px; padding: 9px 10px; line-height: 1.5; }
 .field input:focus,.field textarea:focus,.currency-row select:focus { border-color: #70a893; box-shadow: 0 0 0 3px #17745a12; }
@@ -66,7 +67,7 @@ h1 { margin-bottom: 8px; font: 700 29px 'Manrope', sans-serif; letter-spacing: -
 .item-card-label { color: #86918b; font-size: 9px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
 .remove-item { display: grid; width: 24px; height: 24px; place-items: center; padding: 0; border: 0; border-radius: 5px; background: transparent; color: #a4ada8; font-size: 17px; line-height: 1; }
 .remove-item:hover { background: #fbefed; color: #bd5c50; }
-.item-fields { display: grid; grid-template-columns: minmax(120px, 1fr) 67px 104px; gap: 9px; }
+.item-fields { display: grid; min-width: 0; grid-template-columns: minmax(0, 1fr) 67px 104px; gap: 9px; }
 .field.compact { gap: 5px; }
 .field.compact span { font-size: 9px; }
 .field.compact input { height: 33px; padding: 0 8px; font-size: 10px; }
@@ -137,35 +138,80 @@ h1 { margin-bottom: 8px; font: 700 29px 'Manrope', sans-serif; letter-spacing: -
   .invoice-paper { padding: 36px 30px 26px; }
 }
 @media (max-width: 780px) {
-  .app-shell { padding: 0 22px; }
-  .app-header { height: 72px; }
-  .workspace { grid-template-columns: 1fr; gap: 32px; padding-top: 34px; }
-  .editor-panel { max-width: 560px; width: 100%; margin: auto; }
-  .preview-panel { max-width: 560px; width: 100%; margin: auto; }
+  .app-shell { padding-left: max(22px, env(safe-area-inset-left)); padding-right: max(22px, env(safe-area-inset-right)); }
+  .app-header { min-height: 72px; height: auto; gap: 14px; }
+  .workspace { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-top: 30px; }
+  .editor-panel, .preview-panel { min-width: 0; max-width: 560px; width: 100%; margin: auto; }
+  .item-card { min-width: 0; }
+  .invoice-paper { min-width: 0; }
 }
 @media (max-width: 520px) {
-  .app-shell { padding: 0 15px; }
-  .brand { gap: 8px; }
+  .app-shell { padding-left: max(15px, env(safe-area-inset-left)); padding-right: max(15px, env(safe-area-inset-right)); }
+  .app-header { flex-wrap: wrap; align-items: center; padding: 13px 0 11px; gap: 12px 8px; }
   .brand-copy strong { font-size: 12px; }
   .brand-copy span { font-size: 7px; }
-  .header-actions { gap: 7px; }
+  .header-actions { flex: 1 0 100%; justify-content: flex-end; gap: 8px; }
   .save-status { display: none; }
-  .button { padding: 9px 10px; font-size: 10px; }
-  .button-primary { gap: 5px; }
-  .button-primary svg { width: 15px; }
-  .invoice-paper { min-height: 680px; padding: 32px 22px 24px; }
+  .button { min-height: 44px; padding: 10px 13px; font-size: 12px; }
+  .button-primary { gap: 7px; }
+  .button-primary svg { width: 17px; }
+  .workspace { gap: 26px; padding-top: 24px; padding-bottom: 40px; }
+  .panel-heading { margin-bottom: 24px; }
+  h1 { font-size: 27px; }
+  .form-section { padding: 19px 0 21px; }
+  .section-title { margin-bottom: 14px; }
+  .field { font-size: 11px; }
+  .field input, .field textarea, .currency-row select { font-size: 16px; }
+  .field input { height: 46px; padding: 0 12px; }
+  .field textarea { min-height: 72px; padding: 11px 12px; }
+  .currency-row select { height: 44px; padding: 0 10px; }
+  .two-col { grid-template-columns: 1fr 1fr; }
+  .item-card { padding: 12px; }
+  .item-fields { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .item-fields > :first-child { grid-column: 1 / -1; }
+  .field.compact { gap: 6px; }
+  .field.compact span { font-size: 10px; }
+  .field.compact input { height: 44px; padding: 0 10px; font-size: 16px; }
+  .remove-item { width: 36px; height: 36px; font-size: 22px; }
+  .add-item-button { min-height: 44px; font-size: 12px; }
+  .invoice-paper { min-height: 650px; padding: 26px 16px 20px; }
+  .invoice-topline { gap: 10px; }
   .invoice-brand strong { font-size: 12px; letter-spacing: .7px; }
-  .grand-total { padding: 13px 12px; }
-  .grand-total strong { font-size: 23px; }
-  .invoice-meta { gap: 27px; }
-  .invoice-table th { font-size: 6px; letter-spacing: .3px; }
-  .invoice-table th:first-child { width: 37%; }
-  .invoice-table th:nth-child(2) { width: 13%; }
-  .invoice-table th:nth-child(3) { width: 25%; }
-  .invoice-table th:last-child { width: 25%; }
-  .invoice-table td { padding: 11px 3px; font-size: 8px; }
+  .invoice-label { font-size: 22px; }
+  .invoice-meta { gap: 22px; }
+  .invoice-meta strong { font-size: 12px; }
+  .bill-block { margin: 25px 0; }
+  .invoice-table { width: 100%; table-layout: fixed; }
+  .invoice-table th { padding: 10px 3px; font-size: 7px; letter-spacing: .1px; }
+  .invoice-table th:first-child { width: 36%; padding-left: 6px; }
+  .invoice-table th:nth-child(2) { width: 12%; }
+  .invoice-table th:nth-child(3) { width: 26%; }
+  .invoice-table th:last-child { width: 26%; padding-right: 5px; }
+  .invoice-table td { padding: 11px 3px; font-size: 9px; white-space: normal; }
   .invoice-table td:first-child { padding-left: 6px; }
-  .invoice-table td:last-child { padding-right: 5px; }
+  .invoice-table td:nth-child(n+2) { text-align: right; overflow-wrap: anywhere; }
+  .invoice-table td:last-child { padding-right: 5px; font-size: 10px; }
+  .number-cell { white-space: normal; }
+  .unit-subtext { font-size: 7px; }
+  .total-area { margin: 14px 0 24px; }
+  .grand-total { min-height: 66px; padding: 12px; }
+  .grand-total strong { font-size: clamp(20px, 7vw, 25px); }
+  .signature-line { margin-top: 28px; margin-bottom: 20px; }
+  .app-footer { gap: 12px; font-size: 8px; }
+}
+@media (max-width: 360px) {
+  .two-col { grid-template-columns: 1fr; }
+  .header-actions { justify-content: stretch; }
+  .header-actions .button { flex: 1; justify-content: center; padding: 9px 8px; font-size: 11px; }
+  .invoice-paper { padding-right: 12px; padding-left: 12px; }
+  .invoice-label { font-size: 19px; letter-spacing: 1.5px; }
+  .invoice-brand strong { font-size: 11px; letter-spacing: .4px; }
+  .invoice-table th { font-size: 6px; }
+  .invoice-table th:first-child { width: 34%; }
+  .invoice-table th:nth-child(2) { width: 12%; }
+  .invoice-table th:nth-child(3) { width: 27%; }
+  .invoice-table th:last-child { width: 27%; }
+  .app-footer { flex-direction: column; }
 }
 @media print {
   @page { size: A4; margin: 13mm; }
