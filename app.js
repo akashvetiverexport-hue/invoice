@@ -10,6 +10,7 @@ const elements = {
   customerEmail: document.querySelector('#customerEmail'),
   customerAddress: document.querySelector('#customerAddress'),
   currency: document.querySelector('#currency'),
+  shippingAmount: document.querySelector('#shippingAmount'),
   advanceAmount: document.querySelector('#advanceAmount'),
   invoiceNotes: document.querySelector('#invoiceNotes'),
   itemList: document.querySelector('#itemList'),
@@ -26,6 +27,7 @@ let state = loadDraft() || {
   email: '',
   address: '',
   currency: 'INR',
+  shippingAmount: '',
   advanceAmount: '',
   notes: '',
   items: Array.from({ length: DEFAULT_ITEMS }, () => makeItem()),
@@ -69,6 +71,7 @@ function loadDraft() {
       email: typeof saved.email === 'string' ? saved.email : '',
       address: typeof saved.address === 'string' ? saved.address : '',
       currency: ['INR', 'USD', 'EUR', 'GBP', 'AED'].includes(saved.currency) ? saved.currency : 'INR',
+      shippingAmount: saved.shippingAmount === undefined ? '' : String(saved.shippingAmount),
       advanceAmount: saved.advanceAmount === undefined ? '' : String(saved.advanceAmount),
       notes: typeof saved.notes === 'string' ? saved.notes : '',
       items: items.length ? items : Array.from({ length: DEFAULT_ITEMS }, () => makeItem()),
@@ -135,10 +138,16 @@ function renderPreview() {
       </tr>`).join('');
   }
   const subtotal = validItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shippingAmount = Math.max(0, Number(state.shippingAmount) || 0);
+  const invoiceTotal = subtotal + shippingAmount;
   const advancePaid = Math.max(0, Number(state.advanceAmount) || 0);
-  const balanceDue = Math.max(0, subtotal - advancePaid);
-  const creditBalance = Math.max(0, advancePaid - subtotal);
+  const balanceDue = Math.max(0, invoiceTotal - advancePaid);
+  const creditBalance = Math.max(0, advancePaid - invoiceTotal);
   document.querySelector('#previewSubtotal').textContent = formatMoney(subtotal);
+  const shippingRow = document.querySelector('#shippingRow');
+  shippingRow.hidden = shippingAmount <= 0;
+  document.querySelector('#previewShipping').textContent = formatMoney(shippingAmount);
+  document.querySelector('#previewInvoiceTotal').textContent = formatMoney(invoiceTotal);
   const advanceRow = document.querySelector('#advanceRow');
   advanceRow.hidden = advancePaid <= 0;
   document.querySelector('#previewAdvance').textContent = `−${formatMoney(advancePaid)}`;
@@ -156,6 +165,7 @@ function populateForm() {
   elements.customerEmail.value = state.email;
   elements.customerAddress.value = state.address;
   elements.currency.value = state.currency;
+  elements.shippingAmount.value = state.shippingAmount;
   elements.advanceAmount.value = state.advanceAmount;
   elements.invoiceNotes.value = state.notes;
   renderItems();
@@ -195,6 +205,7 @@ const fieldBindings = [
   [elements.customerEmail, 'email'],
   [elements.customerAddress, 'address'],
   [elements.currency, 'currency'],
+  [elements.shippingAmount, 'shippingAmount'],
   [elements.advanceAmount, 'advanceAmount'],
   [elements.invoiceNotes, 'notes'],
 ];
@@ -236,7 +247,7 @@ document.querySelector('#addItemButton').addEventListener('click', () => {
 });
 
 document.querySelector('#newInvoiceButton').addEventListener('click', () => {
-  const hasContent = state.customer.trim() || Number(state.advanceAmount) > 0 || state.items.some(item => item.name.trim() || item.price.trim());
+  const hasContent = state.customer.trim() || Number(state.shippingAmount) > 0 || Number(state.advanceAmount) > 0 || state.items.some(item => item.name.trim() || item.price.trim());
   if (hasContent && !window.confirm('Start a new invoice? The current invoice will be replaced on this device.')) return;
   state = {
     invoiceNo: createInvoiceNumber(),
@@ -245,6 +256,7 @@ document.querySelector('#newInvoiceButton').addEventListener('click', () => {
     email: '',
     address: '',
     currency: 'INR',
+    shippingAmount: '',
     advanceAmount: '',
     notes: '',
     items: Array.from({ length: DEFAULT_ITEMS }, () => makeItem()),
