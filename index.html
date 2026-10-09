@@ -79,10 +79,10 @@
             <div class="invoice-table-wrap"><table class="invoice-table"><thead><tr><th>DESCRIPTION</th><th class="number-cell">QTY</th><th class="number-cell">UNIT PRICE</th><th class="number-cell">LINE TOTAL</th></tr></thead><tbody id="previewItems"></tbody></table></div>
             <div class="total-area">
               <div class="total-row shipping-row" id="shippingRow" hidden><span>Shipping charges</span><strong id="previewShipping">₹0.00</strong></div>
-              <div class="total-row invoice-total-row"><span>Invoice total</span><strong id="previewInvoiceTotal">₹0.00</strong></div>
+              <div class="total-row invoice-total-row" id="invoiceTotalRow" hidden><span>Invoice total</span><strong id="previewInvoiceTotal">₹0.00</strong></div>
               <div class="total-row payment-row" id="advanceRow" hidden><span>Advance paid</span><strong id="previewAdvance">−₹0.00</strong></div>
               <div class="total-row credit-row" id="creditRow" hidden><span>Credit balance</span><strong id="previewCredit">₹0.00</strong></div>
-              <div class="total-row grand-total"><span>Balance due</span><strong id="previewBalance">₹0.00</strong></div>
+              <div class="total-row grand-total"><span id="previewBalanceLabel">Total due</span><strong id="previewBalance">₹0.00</strong></div>
             </div>
             <div class="invoice-bottom"><div class="thank-you">Thank you for your business.</div><div class="invoice-note" id="previewNotes"></div><div class="signature-line"><span>Akash Vettiver Exports</span><small>AUTHORIZED SIGNATURE</small></div></div>
             <div class="invoice-footer"><span>Akash Vettiver Exports</span><span id="footerInvoiceNumber">—</span></div>

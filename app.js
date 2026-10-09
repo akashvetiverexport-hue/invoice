@@ -147,8 +147,10 @@ function renderPreview() {
   shippingRow.hidden = shippingAmount <= 0;
   document.querySelector('#previewShipping').textContent = formatMoney(shippingAmount);
   document.querySelector('#previewInvoiceTotal').textContent = formatMoney(invoiceTotal);
+  document.querySelector('#invoiceTotalRow').hidden = advancePaid <= 0;
   const advanceRow = document.querySelector('#advanceRow');
   advanceRow.hidden = advancePaid <= 0;
+  document.querySelector('#previewBalanceLabel').textContent = advancePaid > 0 ? 'Balance due' : 'Total due';
   document.querySelector('#previewAdvance').textContent = `−${formatMoney(advancePaid)}`;
   const creditRow = document.querySelector('#creditRow');
   creditRow.hidden = creditBalance <= 0;

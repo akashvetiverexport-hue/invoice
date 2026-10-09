@@ -117,6 +117,7 @@ h1 { margin-bottom: 8px; font: 700 29px 'Manrope', sans-serif; letter-spacing: -
 .total-row strong { color: #38342e; font: 700 12px 'Manrope', sans-serif; }
 #advanceRow[hidden], #creditRow[hidden] { display: none; }
 #shippingRow[hidden] { display: none; }
+#invoiceTotalRow[hidden] { display: none; }
 .payment-row { color: #6f685d; }
 .payment-row strong { color: #8a6d3e; }
 .credit-row strong { color: #8a6d3e; }
