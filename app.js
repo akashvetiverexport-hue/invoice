@@ -143,7 +143,6 @@ function renderPreview() {
   const advancePaid = Math.max(0, Number(state.advanceAmount) || 0);
   const balanceDue = Math.max(0, invoiceTotal - advancePaid);
   const creditBalance = Math.max(0, advancePaid - invoiceTotal);
-  document.querySelector('#previewSubtotal').textContent = formatMoney(subtotal);
   const shippingRow = document.querySelector('#shippingRow');
   shippingRow.hidden = shippingAmount <= 0;
   document.querySelector('#previewShipping').textContent = formatMoney(shippingAmount);

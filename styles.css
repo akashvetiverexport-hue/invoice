@@ -263,13 +263,14 @@ h1 { margin-bottom: 8px; font: 700 29px 'Manrope', sans-serif; letter-spacing: -
   .mobile-action-bar button { padding-right: 8px; padding-left: 8px; font-size: 12px; }
 }
 @media print {
-  @page { size: A4 portrait; margin: 8mm; }
-  body { min-width: 0; background: #fff; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  .app-shell { max-width: none; margin: 0; padding: 0; }
+  @page { size: 210mm 297mm; margin: 0; }
+  html, body { width: 210mm !important; min-width: 210mm !important; max-width: 210mm !important; margin: 0 !important; padding: 0 !important; background: #fff; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .app-shell, .workspace, .preview-panel { width: 210mm !important; min-width: 210mm !important; max-width: 210mm !important; margin: 0 !important; padding: 0 !important; }
+  .app-shell { box-sizing: border-box; }
   .app-header, .editor-panel, .preview-toolbar, .preview-hint, .app-footer, .mobile-action-bar { display: none !important; }
-  .workspace { display: block; padding: 0; margin: 0; }
-  .preview-panel { width: 100%; margin: 0; }
-  .invoice-paper { width: 100%; height: auto; min-height: 281mm; aspect-ratio: auto; margin: 0; padding: 8mm 10mm; border: 0; border-radius: 0; box-shadow: none; }
+  .workspace { display: block !important; }
+  .preview-panel { display: block !important; }
+  .invoice-paper { box-sizing: border-box; display: flex !important; width: 210mm !important; min-width: 210mm !important; max-width: 210mm !important; height: 297mm; min-height: 297mm; aspect-ratio: auto; margin: 0; padding: 12mm; border: 0; border-top: 1mm solid var(--gold); border-radius: 0; box-shadow: none; }
   .invoice-brand strong { font-size: 14px; letter-spacing: 1.1px; }
   .invoice-label { font-size: 25px; letter-spacing: 2.2px; }
   .invoice-meta { gap: 47px; }
